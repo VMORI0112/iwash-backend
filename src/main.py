@@ -32,12 +32,15 @@ users = []
 def login():
     body = request.get_json()
 
-    for x in users:
+	for x in users:
+        found = True
         for k, v in body.items():
             if x[k] != v:
-                return jsonify({'message':'User not found'}), 404
+              found = False
+        if found:
+          return jsonify({'token': create_jwt(identity=1)})
 
-    return jsonify({'token': create_jwt(identity=1)})
+    return jsonify({'message':'User not found'}), 404
 
 @app.route('/users', methods=['POST'])
 def register():
