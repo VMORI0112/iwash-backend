@@ -38,7 +38,10 @@ def login():
             if x[k] != v:
               found = False
         if found:
-          return jsonify({'token': create_jwt(identity=1)})
+          return jsonify({
+              'token': create_jwt(identity=1),
+              'user': x
+              })
 
     return jsonify({'message':'User not found'}), 404
 
