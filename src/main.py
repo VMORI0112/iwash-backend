@@ -28,6 +28,10 @@ def handle_invalid_usage(error):
 
 users = []
 
+@app.route('/')
+def home():
+    return "<div style='text-align: center; margin-top:10%'><h1>Backend running...</h1><br/><h3>Welcome back samir</h3></div>"
+
 @app.route('/login', methods=['POST'])
 def login():
     body = request.get_json()

@@ -1,3 +1,5 @@
+# if you don't have mysql installed: https://dev.mysql.com/doc/mysql-installation-excerpt/5.7/en/osx-installation-pkg.html
+
 # Creating a Database
 
 1. Login in into your mysql terminal:
