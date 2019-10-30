@@ -6,7 +6,7 @@ from flask import Flask, request, jsonify, url_for
 from flask_migrate import Migrate
 from flask_swagger import swagger
 from flask_cors import CORS
-from utils import APIException, generate_sitemap
+from utils import APIException, generate_sitemap, sha256
 from models import db, Users
 from flask_jwt_simple import JWTManager, jwt_required, create_jwt
 
@@ -26,70 +26,80 @@ jwt = JWTManager(app)
 def handle_invalid_usage(error):
     return jsonify(error.to_dict()), error.status_code
 
-users = []
-
 @app.route('/')
 def home():
     return "<div style='text-align: center; margin-top:10%'><h1>Backend running...</h1><br/><h3>Welcome back samir</h3></div>"
 
+@app.route('/users', methods=['GET'])
+def handle_users():
+
+    if request.method == 'GET':
+        users = Users.query.all()
+
+        if not users:
+            return jsonify({'msg':'User not found'}), 404
+
+        return jsonify( [x.serialize() for x in users] ), 200
+
+    return "Invalid Method", 404
+
+
+@app.route('/testing', methods=['POST'])
+def test():
+    return jsonify({'token':'hello world'})
+    return jsonify(request.get_json())
+
 @app.route('/login', methods=['POST'])
-def login():
+def handle_login():
+
     body = request.get_json()
 
-    for x in users:
-        found = True
-        for k, v in body.items():
-            if x[k] != v:
-              found = False
-        if found:
-          return jsonify({
-              'token': create_jwt(identity=1),
-              'user': x
-              })
+    user = Users.query.filter_by(email=body['email'], password=sha256(body['password'])).first()
 
-    return jsonify({'message':'User not found'}), 404
-
-@app.route('/users', methods=['POST'])
-def register():
-    body = request.get_json()
-
-    users.append({
-        "email": body['email'],
-        "password": body['password'],
-        "first_name": body['first_name'],
-        "last_name": body['last_name']
-    })
+    if not user:
+        return 'User not found', 404
 
     return jsonify({
-        'message': 'ok',
-        'token': create_jwt(identity=1)
-        }), 200
+              'token': create_jwt(identity=1),
+              'email': user.email,
+              'firstname': user.firstname,
+              'lastname': user.lastname
+              })
 
-@app.route('/users/<int:id>', methods=['PUT'])
-@jwt_required
-def edit_user(id):
-    
-    if id+1 > len(users):
-        return jsonify({'message':'User not found'}), 404
 
-    user = users[id]
+@app.route('/register', methods=['POST'])
+def handle_register():
+
     body = request.get_json()
 
-    if 'email' in body:
-        user['email'] = body['email']
-    if 'password' in body:
-        user['password'] = body['password']
-    if 'first_name' in body:
-        user['first_name'] = body['first_name']
-    if 'last_name' in body:
-        user['last_name'] = body['last_name']
+    if body is None:
+        raise APIException("You need to specify the request body as a json object", status_code=400)
+    if 'firstname' not in body and 'lastname' not in body:
+        raise APIException("You need to specify the first name and last name", status_code=400)
+    if 'password' not in body and 'email' not in body:
+        raise APIException("You need to specify the password and email", status_code=400)
+    if 'firstname' not in body:
+        raise APIException('You need to specify the first name', status_code=400)
+    if 'lastname' not in body:
+        raise APIException('You need to specify the last name', status_code=400)
+    if 'password' not in body:
+        raise APIException('You need to specify the password', status_code=400)
+    if 'email' not in body:
+        raise APIException('You need to specify the email', status_code=400)
 
-    users[id] = user
-
-    return jsonify(user)
 
 
-# this only runs if `$ python src/main.py` is exercuted
+    db.session.add(Users(
+        email = body['email'],
+        firstname = body['firstname'],
+        lastname = body['lastname'],
+        password = sha256(body['password'])
+    ))
+    db.session.commit()
+
+    return 'success'
+
+# this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
     PORT = int(os.environ.get('PORT', 3000))
     app.run(host='0.0.0.0', port=PORT, debug=False)

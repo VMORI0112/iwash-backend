@@ -1,4 +1,5 @@
 from flask import jsonify, url_for
+import hashlib
 
 class APIException(Exception):
     status_code = 400
@@ -19,6 +20,11 @@ def has_no_empty_params(rule):
     defaults = rule.defaults if rule.defaults is not None else ()
     arguments = rule.arguments if rule.arguments is not None else ()
     return len(defaults) >= len(arguments)
+
+def sha256(string):
+    m = hashlib.sha256()
+    m.update(string.encode('utf-8'))
+    return m.hexdigest()
 
 def generate_sitemap(app):
     links = []
