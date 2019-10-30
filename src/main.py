@@ -7,7 +7,7 @@ from flask_migrate import Migrate
 from flask_swagger import swagger
 from flask_cors import CORS
 from utils import APIException, generate_sitemap, sha256
-from models import db, Users
+from models import db, Users, Washers, Dryers
 from flask_jwt_simple import JWTManager, jwt_required, create_jwt
 
 
@@ -106,11 +106,11 @@ def handle_register():
 @app.route('/washers', methods=['GET'])
 def get_washers():
     if request.method == 'GET':
-        washers = Washers.query.all()
-        if not washers:
+        getWashers = Washers.query.all()
+        if not getWashers:
             return jsonify({'msg':'Washers not found'}), 404
 
-        return jsonify( [x.serialize() for x in washers] ), 200
+        return jsonify( [x.serialize() for x in getWashers] ), 200
 
     return "Invalid Method", 404
 
@@ -118,11 +118,11 @@ def get_washers():
 @app.route('/dryers', methods=['GET'])
 def get_dryers():
     if request.method == 'GET':
-        dryers = Dryers.query.all()
-        if not dryers:
+        getDryers = Dryers.query.all()
+        if not getDryers:
             return jsonify({'msg':'Dryers not found'}), 404
 
-        return jsonify( [x.serialize() for x in dryers] ), 200
+        return jsonify( [x.serialize() for x in getDryers] ), 200
 
     return "Invalid Method", 404
 
