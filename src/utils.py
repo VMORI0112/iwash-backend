@@ -1,6 +1,9 @@
 from flask import jsonify, url_for
 import hashlib
 
+#Hernán García
+#https://github.com/PokerSwap/backend/blob/master/src/utils.py
+
 class APIException(Exception):
     status_code = 400
 
