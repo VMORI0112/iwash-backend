@@ -10,6 +10,7 @@ from utils import APIException, generate_sitemap, sha256
 from models import db, Users
 from flask_jwt_simple import JWTManager, jwt_required, create_jwt
 
+
 app = Flask(__name__)
 app.url_map.strict_slashes = False
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DB_CONNECTION_STRING')
@@ -28,7 +29,7 @@ def handle_invalid_usage(error):
 
 @app.route('/')
 def home():
-    return "<div style='text-align: center; margin-top:10%'><h1>Backend running...</h1><br/><h3>Welcome back samir</h3></div>"
+    return "<div style='text-align: center;'><h1>Backend running...</h1><br/><h3>Welcome back samir</h3><img src='https://media.gettyimages.com/photos/woman-sitting-by-washing-machine-picture-id117852649?s=2048x2048' width='80%' /></div>"
 
 @app.route('/users', methods=['GET'])
 def handle_users():
