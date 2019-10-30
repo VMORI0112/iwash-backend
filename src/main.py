@@ -97,7 +97,10 @@ def handle_register():
     ))
     db.session.commit()
 
-    return 'success'
+    return jsonify({
+        'register': 'success',
+        'msg': 'Successfully Registered'
+    })
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
