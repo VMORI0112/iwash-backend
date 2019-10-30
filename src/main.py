@@ -103,6 +103,31 @@ def handle_register():
         'msg': 'Successfully Registered'
     })
 
+@app.route('/washers', methods=['GET'])
+def get_washers():
+    if request.method == 'GET':
+        washers = Washers.query.all()
+        if not washers:
+            return jsonify({'msg':'Washers not found'}), 404
+
+        return jsonify( [x.serialize() for x in washers] ), 200
+
+    return "Invalid Method", 404
+
+    
+@app.route('/dryers', methods=['GET'])
+def get_dryers():
+    if request.method == 'GET':
+        dryers = Dryers.query.all()
+        if not dryers:
+            return jsonify({'msg':'Dryers not found'}), 404
+
+        return jsonify( [x.serialize() for x in dryers] ), 200
+
+    return "Invalid Method", 404
+
+
+
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
     PORT = int(os.environ.get('PORT', 3000))
