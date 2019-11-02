@@ -103,6 +103,26 @@ def washer_add():
         'msg': 'Successfully Added'
     })
 
+@app.rout('/adddryer', methods=['POST'])
+def dryers_add():
+    body = request.get_json()
+    db.session.add(Dryers(
+        type = body['type'],
+        name = body['name'],
+        number = body['number'],
+        postal = body['postal'],
+        locationNum = body['locationNum'],
+        available = body['available'],
+        cicle = body['cicle'],
+        time = body['time'],
+        price = body['price']
+    ))
+    db.session.commit()
+    return jsonify({
+        'added': 'success',
+        'msg': 'Successfully Added'
+    })
+
 
 @app.route('/register', methods=['POST'])
 def handle_register():
