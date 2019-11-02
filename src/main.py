@@ -182,7 +182,31 @@ def get_dryers():
 
     return "Invalid Method", 404
 
+@app.route('/start_washing', methods=['POST'])
+def start_wash():
+    if request.method == 'POST':
 
+        body = request.get_json()
+
+        db.session.add(CurrentWashing(
+            machineId = body['machineId'],
+            locationNum = body['locationNum'],
+            price = body['price'],
+            cicle = body['cicle'],
+            time = body['time'],
+            start_at = body['start_at'],
+            end_at = body['end_at'],
+            created_at = body['created_at']
+        ))
+
+        db.session.commit()
+
+        return jsonify({
+            'washing': 'success',
+            'msg': 'The washing Machine started'
+        })
+        
+    return "Invalid Method", 404
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
