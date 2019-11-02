@@ -103,7 +103,7 @@ def washer_add():
         'msg': 'Successfully Added'
     })
 
-@app.rout('/adddryer', methods=['POST'])
+@app.route('/adddryer', methods=['POST'])
 def dryers_add():
     body = request.get_json()
     db.session.add(Dryers(
