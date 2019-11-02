@@ -8,6 +8,8 @@ class Users(db.Model):
     firstname = db.Column(db.String(120), nullable=False)
     lastname = db.Column(db.String(120) )
     password = db.Column(db.String(80), nullable=False)
+    avatar = db.Column(db.String(220), default='../../../img/avatar/avatar.png')
+    wallet = db.Column(db.Integer, default=0)
 
     def __repr__(self):
         return '<Users %r>' % self.email
@@ -17,7 +19,9 @@ class Users(db.Model):
             "id": self.id,
             "email": self.email,
             "firstname": self.firstname,
-            "lastname": self.lastname
+            "lastname": self.lastname,
+            "avatar": self.avatar,
+            "wallet": self.wallet
         }
 
 class Washers(db.Model):
@@ -25,6 +29,9 @@ class Washers(db.Model):
     type = db.Column(db.String(50), nullable=False)
     name = db.Column(db.String(220))
     number = db.Column(db.Integer())
+    postal = db.Column(db.Integer())
+    locationNum = db.Column(db.Integer())
+    available = db.Column(db.String(12), default='available')
     cicle_1 = db.Column(db.String(120))
     time_1 = db.Column(db.Integer())
     price_1 = db.Column(db.Float(5))
@@ -50,6 +57,9 @@ class Washers(db.Model):
             "type": self.type,
             "name": self.name,
             "number": self.number,
+            "postal": self.postal,
+            "locationNum": self.locationNum,
+            "available": self.available,
             "cicle_1": self.cicle_1,
             "time_1": self.time_1,
             "price_1": self.price_1,
@@ -72,6 +82,9 @@ class Dryers(db.Model):
     type = db.Column(db.String(50), nullable=False)
     name = db.Column(db.String(220))
     number = db.Column(db.Integer())
+    postal = db.Column(db.Integer())
+    locationNum = db.Column(db.Integer())
+    available = db.Column(db.String(12), default='available')
     cicle = db.Column(db.String(120))
     time = db.Column(db.Integer())
     price = db.Column(db.Float(5))
@@ -85,6 +98,9 @@ class Dryers(db.Model):
             "type": self.type,
             "name": self.name,
             "number": self.number,
+            "postal": self.postal,
+            "locationNum": self.locationNum,
+            "available": self.available,
             "cicle": self.cicle,
             "time": self.time,
             "price": self.price
