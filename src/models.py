@@ -114,9 +114,9 @@ class CurrentWashing(db.Model):
     price = db.Column(db.Float(5))
     cicle = db.Column(db.String(120))
     time = db.Column(db.Integer())
-    start_at = db.Column(db.DateTime())
-    end_at = db.Column(db.DateTime())
-    created_at = db.Column(db.DateTime(), default=datetime.datetime.now())
+    start = db.Column(db.BigInteger())
+    end = db.Column(db.BigInteger())
+    
 
     def __repr__(self):
         return '<CurrentWashing %r>' % self.locationNum
@@ -130,6 +130,5 @@ class CurrentWashing(db.Model):
             "cicle": self.cicle,
             "time": self.time,
             "start_at": self.start_at,
-            "end_at": self.end_at,
-            "created_at": self.created_at
+            "end_at": self.end_at
         }

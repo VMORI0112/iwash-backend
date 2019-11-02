@@ -7,7 +7,7 @@ from flask_migrate import Migrate
 from flask_swagger import swagger
 from flask_cors import CORS
 from utils import APIException, generate_sitemap, sha256
-from models import db, Users, Washers, Dryers
+from models import db, Users, Washers, Dryers, CurrentWashing
 from flask_jwt_simple import JWTManager, jwt_required, create_jwt
 
 
@@ -194,9 +194,8 @@ def start_wash():
             price = body['price'],
             cicle = body['cicle'],
             time = body['time'],
-            start_at = body['start_at'],
-            end_at = body['end_at'],
-            created_at = body['created_at']
+            start = body['start_at'],
+            end = body['end_at']
         ))
 
         db.session.commit()
@@ -205,7 +204,7 @@ def start_wash():
             'washing': 'success',
             'msg': 'The washing Machine started'
         })
-        
+
     return "Invalid Method", 404
 
 # this only runs if `$ python src/main.py` is executed
