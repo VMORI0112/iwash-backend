@@ -105,3 +105,31 @@ class Dryers(db.Model):
             "time": self.time,
             "price": self.price
         }
+
+class CurrentWashing(db.Model):
+    import datetime
+    id = db.Column(db.Integer(), primary_key=True)
+    machineId = db.Column(db.Integer())
+    locationNum = db.Column(db.Integer())
+    price = db.Column(db.Float(5))
+    cicle = db.Column(db.String(120))
+    time = db.Column(db.Integer())
+    start_at = db.Column(db.DateTime())
+    end_at = db.Column(db.DateTime())
+    created_at = db.Column(db.DateTime(), default=datetime.datetime.now())
+
+    def __repr__(self):
+        return '<CurrentWashing %r>' % self.locationNum
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "machineId": self.machineId,
+            "locationNum": self.locationNum,
+            "price": self.price,
+            "cicle": self.cicle,
+            "time": self.time,
+            "start_at": self.start_at,
+            "end_at": self.end_at,
+            "created_at": self.created_at
+        }
