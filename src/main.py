@@ -71,6 +71,38 @@ def handle_login():
               'lastname': user.lastname
               })
 
+@app.route('/addwasher', methods=['POST'])
+def washer_add():
+    body = request.get_json()
+    db.session.add(Washers(
+        type = body['type'],
+        name = body['name'],
+        number = body['number'],
+        postal = body['postal'],
+        locationNum = body['locationNum'],
+        available = body['available'],
+        cicle_1 = body['cicle_1'],
+        time_1 = body['time_1'],
+        price_1 = body['price_1'],
+        cicle_2 = body['cicle_2'],
+        time_2 = body['time_2'],
+        price_2 = body['price_2'],
+        cicle_3 = body['cicle_3'],
+        time_3 = body['time_3'],
+        price_3 = body['price_3'],
+        cicle_4 = body['cicle_4'],
+        time_4 = body['time_4'],
+        price_4 = body['price_4'],
+        cicle_5 = body['cicle_5'],
+        time_5 = body['time_5'],
+        price_5 = body['price_5']
+    ))
+    db.session.commit()
+    return jsonify({
+        'added': 'success',
+        'msg': 'Successfully Added'
+    })
+
 
 @app.route('/register', methods=['POST'])
 def handle_register():
