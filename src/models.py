@@ -8,7 +8,7 @@ class Users(db.Model):
     firstname = db.Column(db.String(120), nullable=False)
     lastname = db.Column(db.String(120) )
     password = db.Column(db.String(80), nullable=False)
-    avatar = db.Column(db.String(220), default='../../../img/avatar/avatar.png')
+    avatar = db.Column(db.String(220), default='avatar.png')
     wallet = db.Column(db.Integer, default=0)
 
     def __repr__(self):
