@@ -9,7 +9,7 @@ class Users(db.Model):
     lastname = db.Column(db.String(120) )
     password = db.Column(db.String(80), nullable=False)
     avatar = db.Column(db.String(220), default='avatar.png')
-    wallet = db.Column(db.Integer, default=0)
+    wallet = db.Column(db.Float(5), default=0)
 
     def __repr__(self):
         return '<Users %r>' % self.email

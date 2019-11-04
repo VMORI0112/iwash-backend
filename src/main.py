@@ -60,6 +60,26 @@ def get_value():
 
     return "Invalid Method", 404
 
+@app.route('/transaction', methods=['PUT'])
+def add_transaction():
+    if request.method == 'PUT':
+        body = request.get_json()
+        # floatAmount = float(body["amount"])
+
+        updateUser = Users.query.get(body['id'])
+
+        if updateUser is None:
+            raise APIException('User not found', status_code=404)
+
+        if "amount" in body:
+            updateUser.wallet = body["amount"]
+
+        db.session.commit()
+        return jsonify({
+            'updated': 'success',
+            'msg': 'Successfully Updated'
+        })
+
 @app.route('/testing', methods=['POST'])
 def test():
     return jsonify({'token':'hello world'})
@@ -77,6 +97,7 @@ def handle_login():
 
     return jsonify({
               'token': create_jwt(identity=1),
+              'id': user.id,
               'email': user.email,
               'firstname': user.firstname,
               'lastname': user.lastname,
