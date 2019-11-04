@@ -68,8 +68,8 @@ def handle_login():
               'token': create_jwt(identity=1),
               'email': user.email,
               'firstname': user.firstname,
-              'lastname': user.lastname
-              'avatar': user.avatar
+              'lastname': user.lastname,
+              'avatar': user.avatar,
               'wallet': user.wallet
               })
 
