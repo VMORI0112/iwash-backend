@@ -69,6 +69,8 @@ def handle_login():
               'email': user.email,
               'firstname': user.firstname,
               'lastname': user.lastname
+              'avatar': user.avatar
+              'wallet': user.wallet
               })
 
 @app.route('/addwasher', methods=['POST'])
