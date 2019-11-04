@@ -7,7 +7,7 @@ from flask_migrate import Migrate
 from flask_swagger import swagger
 from flask_cors import CORS
 from utils import APIException, generate_sitemap, sha256
-from models import db, Users, Washers, Dryers, CurrentWashing, Btnvalues
+from models import db, Users, Washers, Dryers, CurrentWashing, Btnvalues, WalletTransactions
 from flask_jwt_simple import JWTManager, jwt_required, create_jwt
 
 
@@ -60,19 +60,32 @@ def get_value():
 
     return "Invalid Method", 404
 
-@app.route('/transaction', methods=['PUT'])
+@app.route('/transaction', methods=['POST'])
 def add_transaction():
-    if request.method == 'PUT':
+    if request.method == 'POST':
         body = request.get_json()
-        # floatAmount = float(body["amount"])
 
-        updateUser = Users.query.get(body['id'])
+        updateUser = Users.query.get(body['user_id'])
 
         if updateUser is None:
             raise APIException('User not found', status_code=404)
 
-        if "amount" in body:
-            updateUser.wallet = body["amount"]
+        if "new_amount" in body:
+            updateUser.wallet = body["new_amount"]
+            db.session.add(WalletTransactions(
+                trans_time = body['trans_time'],
+                trans_id = body['trans_id'],
+                trans_status = body['trans_status'],
+                paypal_payer_email = body['paypal_payer_email'],
+                paypal_payer_name = body['paypal_payer_name'],
+                paypal_payer_surname = body['paypal_payer_surname'],
+                paypal_payer_id = body['paypal_payer_id'],
+                old_amount = body['old_amount'],
+                trans_amount = body['trans_amount'],
+                new_amount = body['new_amount'],
+                user_id = body['user_id'],
+                user_email = body['user_email']
+            ))
 
         db.session.commit()
         return jsonify({

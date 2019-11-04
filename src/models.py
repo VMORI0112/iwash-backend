@@ -39,6 +39,42 @@ class Btnvalues(db.Model):
             "value": self.value
         }
 
+class WalletTransactions(db.Model):
+    id = db.Column(db.Integer(), primary_key=True)
+    trans_time = db.Column(db.String(220))
+    trans_id = db.Column(db.String(220))
+    trans_status = db.Column(db.String(220))
+    paypal_payer_email = db.Column(db.String(220))
+    paypal_payer_name = db.Column(db.String(220))
+    paypal_payer_surname = db.Column(db.String(220))
+    paypal_payer_id = db.Column(db.String(220))
+    old_amount = db.Column(db.Float(5))
+    trans_amount = db.Column(db.Float(5))
+    new_amount = db.Column(db.Float(5))
+    user_id = db.Column(db.Integer())
+    user_email = db.Column(db.String(220))
+
+    def __repr__(self):
+        return '<WalletTransactions %r>' % self.user_email
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "trans_time": self.trans_time,
+            "trans_id": self.trans_id,
+            "trans_status": self.trans_status,
+            "paypal_payer_email": self.paypal_payer_email,
+            "paypal_payer_name": self.paypal_payer_name,
+            "paypal_payer_surname": self.paypal_payer_surname,
+            "paypal_payer_id": self.paypal_payer_id,
+            "old_amount": self.old_amount,
+            "trans_amount": self.trans_amount,
+            "new_amount": self.new_amount,
+            "user_id": self.user_id,
+            "user_email": self.user_email
+        }
+
+
 class Washers(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     type = db.Column(db.String(50), nullable=False)
