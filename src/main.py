@@ -7,7 +7,7 @@ from flask_migrate import Migrate
 from flask_swagger import swagger
 from flask_cors import CORS
 from utils import APIException, generate_sitemap, sha256
-from models import db, Users, Washers, Dryers, CurrentWashing
+from models import db, Users, Washers, Dryers, CurrentWashing, Btnvalues
 from flask_jwt_simple import JWTManager, jwt_required, create_jwt
 
 
@@ -48,6 +48,17 @@ def handle_users():
 
     return "Invalid Method", 404
 
+@app.route('/values', methods=['GET'])
+def get_value():
+    if request.method == 'GET':
+        values = Btnvalues.query.all()
+
+        if not values:
+            return jsonify({'msg':'Value not found'}), 404
+
+        return jsonify( [x.serialize() for x in values] ), 200
+
+    return "Invalid Method", 404
 
 @app.route('/testing', methods=['POST'])
 def test():

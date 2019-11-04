@@ -24,6 +24,21 @@ class Users(db.Model):
             "wallet": self.wallet
         }
 
+class Btnvalues(db.Model):
+    id = db.Column(db.Integer(), primary_key=True)
+    name = db.Column(db.String(20))
+    value = db.Column(db.Integer())
+
+    def __repr__(self):
+        return '<Btnvalues %r>' % self.name
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "value": self.value
+        }
+
 class Washers(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     type = db.Column(db.String(50), nullable=False)
