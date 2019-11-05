@@ -217,7 +217,7 @@ def get_washers():
 
     return "Invalid Method", 404
 
-    
+
 @app.route('/dryers', methods=['GET'])
 def get_dryers():
     if request.method == 'GET':
@@ -253,6 +253,7 @@ def start_wash():
         })
 
     return "Invalid Method", 404
+
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
